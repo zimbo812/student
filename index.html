@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Основи роботи з Git та VCS</title>
+    <style>
+        :root {
+            --bg-color: #0d1117;
+            --card-bg: #161b22;
+            --border-color: #30363d;
+            --text-main: #c9d1d9;
+            --text-heading: #f0f6fc;
+            --accent: #f78166;
+            --accent-blue: #58a6ff;
+            --code-bg: #21262d;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            color: var(--text-heading);
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            color: #8b949e;
+            font-size: 1.1rem;
+        }
+
+        section {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        h2 {
+            color: var(--accent-blue);
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        p, ul {
+            margin-bottom: 15px;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        /* Таблиця команд */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 12px 14px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background-color: #21262d;
+            color: var(--text-heading);
+            font-weight: 600;
+        }
+
+        code {
+            font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+            background-color: var(--code-bg);
+            color: var(--accent);
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        /* Блок сертифіката */
+        .certificate-box {
+            border: 2px dashed var(--border-color);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.02);
+        }
+
+        .certificate-box img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            margin-top: 15px;
+        }
+
+        .links-list a {
+            color: var(--accent-blue);
+            text-decoration: none;
+        }
+
+        .links-list a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            text-align: center;
+            color: #8b949e;
+            font-size: 0.9rem;
+            padding: 20px 0;
+            border-top: 1px solid var(--border-color);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <header>
+        <h1>Системи контролю версій: Git</h1>
+        <p>Практичний довідник та звіт з опрацювання теми</p>
+    </header>
+
+    <!-- 1. Коротка інформація -->
+    <section>
+        <h2>1. Системи контролю версій (VCS) та Git</h2>
+        <p>
+            <strong>Система контролю версій (Version Control System, VCS)</strong> — це програмне забезпечення, що фіксує зміни у файлах з плином часу, дозволяючи повертатися до попередніх версій, відстежувати історію модифікацій, порівнювати правки та організовувати спільну роботу команди над кодом.
+        </p>
+        <p>
+            <strong>Git</strong> — це розподілена система контролю версій (Distributed VCS), створена Лінусом Торвальдсом у 2005 році. На відміну від централізованих систем (таких як SVN чи CVS), у Git кожен розробник має повну локальну копію всього репозиторію разом із повною історією коммітів, що забезпечує високу швидкість роботи та можливість працювати офлайн.
+        </p>
+    </section>
+
+    <!-- 2. Можливості та переваги -->
+    <section>
+        <h2>2. Основні можливості та переваги використання Git</h2>
+        <ul>
+            <li><strong>Розподілена архітектура:</strong> відсутність єдиної точки відмови (Single Point of Failure); локальні операції виконуються миттєво.</li>
+            <li><strong>Швидка та легковагова робота з гілками (Branching & Merging):</strong> створення, перемикання та злиття гілок реалізовані максимально оптимізовано, що заохочує використання feature-гілок.</li>
+            <li><strong>Цілісність даних:</strong> кожен об'єкт і стан проекту підписуються криптографічним хешем (SHA-1 / SHA-256), що гарантує захист від непомітного пошкодження або зміни історії.</li>
+            <li><strong>Індексування (Staging Area):</strong> проміжний стан перед фіксацією дозволяє вибірково формувати комміт лише з потрібних змін.</li>
+            <li><strong>Масштабованість та інтеграція:</strong> Git став фактичним стандартом індустрії й підтримується провідними сервісами (GitHub, GitLab, Bitbucket) та сучасними IDE.</li>
+        </ul>
+    </section>
+
+    <!-- 3. 10 базових команд -->
+    <section>
+        <h2>3. Топ-10 базових команд Git з коментарями</h2>
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 30%;">Команда</th>
+                        <th>Призначення та коментар</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>git init</code></td>
+                        <td>Ініціалізує новий локальний Git-репозиторій у поточній директорії (створює приховану папку <code>.git</code>).</td>
+                    </tr>
+                    <tr>
+                        <td><code>git clone &lt;url&gt;</code></td>
+                        <td>Клонує (копіює) існуючий віддалений репозиторій на локальний комп'ютер разом з усією історією.</td>
+                    </tr>
+                    <tr>
+                        <td><code>git status</code></td>
+                        <td>Відображає поточний стан робочого каталогу: змінені, підготовлені (staged) або невідстежувані файли.</td>
+                    </tr>
+                    <tr>
+                        <td><code>git add &lt;file&gt;</code></td>
+                        <td>Додає зміни файлу до області індексування (Staging Area) для підготовки до комміту (<code>git add .</code> — додати всі).</td>
+                    </tr>
+                    <tr>
+                        <td><code>git commit -m "msg"</code></td>
+                        <td>Зберігає проіндексовані зміни в історії проекту зі зрозумілим повідомленням про внесені правки.</td>
+                    </tr>
+                    <tr>
+                        <td><code>git branch</code></td>
+                        <td>Переглядає список локальних гілок. З прапорцем <code>-M &lt;name&gt;</code> перейменовує гілку, з <code>&lt;name&gt;</code> — створює нову.</td>
+                    </tr>
+                    <tr>
+                        <td><code>git checkout &lt;branch&gt;</code></td>
+                        <td>Перемикає робочий стан на вказану гілку (у новіших версіях Git також використовується <code>git switch</code>).</td>
+                    </tr>
+                    <tr>
+                        <td><code>git merge &lt;branch&gt;</code></td>
+                        <td>Об'єднує зміни з зазначеної гілки в поточну активну гілку.</td>
+                    </tr>
+                    <tr>
+                        <td><code>git pull</code></td>
+                        <td>Завантажує та одразу інтегрує (об'єднує) зміни з віддаленого репозиторію в поточну локальну гілку.</td>
+                    </tr>
+                    <tr>
+                        <td><code>git push origin &lt;branch&gt;</code></td>
+                        <td>Надсилає зафіксовані локальні комміти у віддалений репозиторій на сервері.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- 5. Джерела інформації -->
+    <section>
+        <h2>5. Джерела інформації по темі</h2>
+        <ul class="links-list">
+            <li>
+                <a href="https://git-scm.com/doc" target="_blank" rel="noopener noreferrer">Git Official Documentation & Pro Git Book</a> — офіційна повна документація та книга Скотта Шакона.
+            </li>
+            <li>
+                <a href="https://docs.github.com/en/get-started" target="_blank" rel="noopener noreferrer">GitHub Docs: Get Started with Git</a> — практичні інструкції та керівництва від команди GitHub.
+            </li>
+            <li>
+                <a href="https://www.atlassian.com/git/tutorials" target="_blank" rel="noopener noreferrer">Atlassian Git Tutorial</a> — детальні навчальні статті та діаграми робочих процесів (Gitflow, злиття, ребейз).
+            </li>
+            <li>
+                <a href="https://learngitbranching.js.org/?locale=uk" target="_blank" rel="noopener noreferrer">Learn Git Branching (Українською)</a> — інтерактивний візуальний тренажер для вивчення гілкування та команд Git.
+            </li>
+        </ul>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Навчальна робота. Тема: Системи контролю версій Git.</p>
+    </footer>
+
+</div>
+
+</body>
+</html>
